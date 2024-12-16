@@ -11,6 +11,8 @@
   "description": "",
   "dependencies": {
     "express": "^4.21.2",
-    "yum": "^0.1.1"
+    "mongodb": "^6.12.0",
+    "mongoose": "^8.9.0",
+    "yum": "^0.0.1"
   }
 }

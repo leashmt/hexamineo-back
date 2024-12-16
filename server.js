@@ -1,13 +1,27 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const eleveRoutes = require('./routes/eleveRoutes');
+const professeurRoutes = require('./routes/professeurRoutes');
+const classeRoutes = require('./routes/classeRoutes');
+
 const app = express();
 const PORT = 3001;
 
-// Route par défaut
+app.use(express.json());
+
+mongoose
+	.connect('mongodb://localhost:27017/hexamineo')
+	.then(() => console.log('Connexion à MongoDB réussie'))
+	.catch(err => console.error('Erreur de connexion à MongoDB :', err));
+
+app.use('/api/eleves', eleveRoutes);
+app.use('/api/professeurs', professeurRoutes);
+app.use('/api/classes', classeRoutes);
+
 app.get('/', (req, res) => {
 	res.send('Bienvenue sur le serveur back-end Hexamineo !');
 });
 
-// Démarrer le serveur
 app.listen(PORT, () => {
 	console.log(`Serveur en cours d'exécution sur http://localhost:${PORT}`);
 });
