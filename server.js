@@ -10,10 +10,7 @@ const PORT = 3001;
 app.use(express.json());
 
 mongoose
-	.connect('mongodb://localhost:27017/hexamineo', {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	})
+	.connect('mongodb://localhost:27017/hexamineo')
 	.then(() => console.log('Connexion à MongoDB réussie'))
 	.catch(err => console.error('Erreur de connexion à MongoDB :', err));
 

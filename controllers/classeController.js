@@ -22,13 +22,12 @@ exports.getClasseById = async (req, res) => {
 };
 
 exports.createClasse = async (req, res) => {
-	const { nomClasse, nomProfesseur, nombreEleveMax } = req.body;
+	const { nomClasse, nomProfesseur } = req.body;
 
 	try {
 		const nouvelleClasse = new Classe({
 			nomClasse,
 			nomProfesseur,
-			nombreEleveMax,
 		});
 
 		const classeEnregistree = await nouvelleClasse.save();
