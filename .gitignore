@@ -6,3 +6,4 @@ node_modules/
 
 # Fichiers système
 .DS_Store
+.vscode/
