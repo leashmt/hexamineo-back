@@ -3,10 +3,15 @@ const mongoose = require('mongoose');
 const eleveRoutes = require('./routes/eleveRoutes');
 const professeurRoutes = require('./routes/professeurRoutes');
 const classeRoutes = require('./routes/classeRoutes');
+const cors = require('cors');
 
 const app = express();
 const PORT = 3001;
+const corsOptions = {
+	origin: 'http://localhost:3000', // Autoriser seulement localhost:3000
+};
 
+app.use(cors(corsOptions));
 app.use(express.json());
 
 mongoose

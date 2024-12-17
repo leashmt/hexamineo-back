@@ -20,19 +20,24 @@ exports.getEleveById = async (req, res) => {
 };
 
 exports.createEleve = async (req, res) => {
+	console.log('posttttttt');
 	const { nom, prenom, dateDeNaissance, classe, niveau, prof } = req.body;
-
+	console.log('2');
 	const newEleve = new Eleve({
 		nom,
 		prenom,
 		dateDeNaissance,
 		classe,
-		niveau,
+		niveau: niveau || 'Non spécifié',
 		prof,
 	});
 
+	console.log(newEleve);
+
 	try {
 		const eleve = await newEleve.save();
+		console.log(eleve);
+		console.log('saved');
 		res.status(201).json(eleve);
 	} catch (error) {
 		res.status(400).json({ message: error.message });
