@@ -28,6 +28,14 @@ const eleveSchema = new mongoose.Schema({
 	nomProf: {
 		type: String,
 	},
+	repeatingGrade: {
+		type: Boolean,
+		default: false,
+	},
+	skipGrade: {
+		type: Boolean,
+		default: false,
+	},
 });
 
 const Eleve = mongoose.model('Eleve', eleveSchema);
