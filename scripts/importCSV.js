@@ -78,6 +78,10 @@ const processCSV = async filePath => {
 	mongoose.connection.close();
 };
 
-connectDB().then(() => {
-	processCSV('./Effectif_2024_2025_Saint_Excopy.csv');
-});
+const importCSV = async filepath => {
+	connectDB().then(() => {
+		processCSV(filepath);
+	});
+};
+
+importCSV('./Effectif_2024_2025_Saint_Excopy.csv');
