@@ -11,6 +11,9 @@ router.get('/:id', eleveController.getEleveById);
 // Route pour récupérer tous les élèves d'un niveau spécifique
 router.get('/niveau/:niveau', eleveController.getElevesByNiveau);
 
+// Route pour récupérer tous les élèves sans niveau
+router.get('/without-niveau', eleveController.getElevesWithoutNiveau);
+
 // Route pour ajouter un nouvel élève
 router.post('/', eleveController.createEleve);
 
