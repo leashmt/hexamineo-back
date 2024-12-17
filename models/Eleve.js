@@ -25,6 +25,9 @@ const eleveSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId, // référence au professeur
 		ref: 'Professeur',
 	},
+	nomProf: {
+		type: String,
+	},
 });
 
 const Eleve = mongoose.model('Eleve', eleveSchema);
