@@ -17,12 +17,11 @@ const connectDB = async () => {
 let countProfesseurs = 0;
 let countEleves = 0;
 
-const addDataFromCSV = async filePath => {
-	const students = [];
+const processCSV = async filePath => {
+	const readStream = fs.createReadStream(filePath).pipe(csv());
 
-	fs.createReadStream(filePath)
-		.pipe(csv())
-		.on('data', async row => {
+	for await (const row of readStream) {
+		try {
 			const cleanedRow = Object.keys(row).reduce((acc, key) => {
 				acc[key.replace(/^\ufeff/, '').trim()] = row[key];
 				return acc;
@@ -42,45 +41,43 @@ const addDataFromCSV = async filePath => {
 			});
 
 			if (eleveExists) {
-				console.log(`L'élève ${nomEleve} ${prenomEleve} existe déjà.`);
-			} else {
-				const eleve = new Eleve({
-					nom: nomEleve,
-					prenom: prenomEleve,
-					dateDeNaissance: new Date(dateDeNaissance),
-					niveau: Niveau,
-				});
-
-				let professeur = await Professeur.findOne({ nom: nomProfesseur });
-
-				if (!professeur) {
-					professeur = new Professeur({
-						nom: nomProfesseur,
-						email: `${nomProfesseur
-							.toLowerCase()
-							.replace(' ', '.')}@ecole.com`,
-					});
-
-					await professeur.save();
-					countProfesseurs++;
-					console.log(`Professeur ${nomProfesseur} ajouté.`);
-				}
-
-				eleve.prof = professeur._id;
-				await eleve.save();
-				countEleves++;
-				console.log(`Élève ${nomEleve} ${prenomEleve} ajouté.`);
-				students.push(eleve);
+				continue;
 			}
-		})
-		.on('end', () => {
-			console.log('Importation terminée.');
-			console.log(`${countProfesseurs} professeurs ajoutés.`);
-			console.log(`${countEleves} élèves ajoutés.`);
-			// mongoose.connection.close();
-		});
+
+			const eleve = new Eleve({
+				nom: nomEleve,
+				prenom: prenomEleve,
+				dateDeNaissance: new Date(dateDeNaissance),
+				niveau: Niveau,
+			});
+
+			let professeur = await Professeur.findOne({ nom: nomProfesseur });
+			if (!professeur) {
+				professeur = new Professeur({
+					nom: nomProfesseur,
+					email: `${nomProfesseur.toLowerCase().replace(' ', '.')}@ecole.com`,
+				});
+				await professeur.save();
+				countProfesseurs++;
+			}
+
+			eleve.prof = professeur._id;
+			eleve.nomProf = professeur.nom;
+
+			await eleve.save();
+			countEleves++;
+		} catch (err) {
+			console.error('Erreur lors de l’importation d’une ligne:', err);
+		}
+	}
+
+	console.log('');
+	console.log('Importation terminée.');
+	console.log(`${countProfesseurs} professeurs ajoutés.`);
+	console.log(`${countEleves} élèves ajoutés.`);
+	mongoose.connection.close();
 };
 
 connectDB().then(() => {
-	addDataFromCSV('./Effectif_2024_2025_Saint_Ex.csv');
+	processCSV('./Effectif_2024_2025_Saint_Excopy.csv');
 });
