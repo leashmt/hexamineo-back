@@ -7,16 +7,16 @@ mongoose
 	.catch(err => console.error('Erreur de connexion à MongoDB :', err));
 
 const professeurs = [
-	{ nom: 'Dupont', prenom: 'Jean', email: 'jean.dupont@example.com' },
-	{ nom: 'Durand', prenom: 'Sophie', email: 'sophie.durand@example.com' },
-	{ nom: 'Morel', prenom: 'Luc', email: 'luc.morel@example.com' },
-	{ nom: 'Bernard', prenom: 'Claire', email: 'claire.bernard@example.com' },
-	{ nom: 'Martin', prenom: 'Pierre', email: 'pierre.martin@example.com' },
-	{ nom: 'Petit', prenom: 'Marie', email: 'marie.petit@example.com' },
-	{ nom: 'Garcia', prenom: 'Ana', email: 'ana.garcia@example.com' },
-	{ nom: 'Roux', prenom: 'Julien', email: 'julien.roux@example.com' },
-	{ nom: 'Lemoine', prenom: 'Emma', email: 'emma.lemoine@example.com' },
-	{ nom: 'Schmitt', prenom: 'Paul', email: 'paul.schmitt@example.com' },
+	{ nom: 'Dupont Jean', email: 'jean.dupont@example.com' },
+	{ nom: 'Durand Sophie', email: 'sophie.durand@example.com' },
+	{ nom: 'Morel Luc', email: 'luc.morel@example.com' },
+	{ nom: 'Bernard Claire', email: 'claire.bernard@example.com' },
+	{ nom: 'Martin Pierre', email: 'pierre.martin@example.com' },
+	{ nom: 'Petit Marie', email: 'marie.petit@example.com' },
+	{ nom: 'Garcia Ana', email: 'ana.garcia@example.com' },
+	{ nom: 'Roux Julien', email: 'julien.roux@example.com' },
+	{ nom: 'Lemoine Emma', email: 'emma.lemoine@example.com' },
+	{ nom: 'Schmitt Paul', email: 'paul.schmitt@example.com' },
 ];
 
 Professeur.insertMany(professeurs)

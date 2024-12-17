@@ -25,6 +25,17 @@ const eleveSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId, // référence au professeur
 		ref: 'Professeur',
 	},
+	nomProf: {
+		type: String,
+	},
+	repeatingGrade: {
+		type: Boolean,
+		default: false,
+	},
+	skipGrade: {
+		type: Boolean,
+		default: false,
+	},
 });
 
 const Eleve = mongoose.model('Eleve', eleveSchema);
