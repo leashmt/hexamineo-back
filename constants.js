@@ -17,3 +17,17 @@ export const LIST_LEVELS = [
 	CM1,
 	CM2,
 ];
+
+export const LEVELS_BY_AGE = {
+	0: 'null',
+	1: 'null',
+	2: 'null',
+	3: FIRST_SECTION,
+	4: SECOND_SECTION,
+	5: THRID_SECTION,
+	6: CP,
+	7: CE1,
+	8: CE2,
+	9: CM1,
+	10: CM2,
+};
