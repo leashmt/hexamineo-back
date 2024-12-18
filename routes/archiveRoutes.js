@@ -8,6 +8,9 @@ router.post('/', archiveController.addArchive);
 // Route pour récupérer toutes les archives
 router.get('/', archiveController.getAllArchives);
 
+// Route pour ajouter tous les élèves à une archive
+router.post('/:year/all', archiveController.addAllElevesToArchive);
+
 // Route pour récupérer les archives d’une année spécifique
 router.get('/:year', archiveController.getArchivesByYear);
 

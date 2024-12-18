@@ -1,4 +1,5 @@
-const Archive = require('../models/archiveModel');
+const Archive = require('../models/Archive');
+const Eleve = require('../models/Eleve');
 
 exports.addArchive = async (req, res) => {
 	try {
@@ -53,5 +54,37 @@ exports.getArchivesByYearAndLevel = async (req, res) => {
 			error
 		);
 		res.status(500).json({ message: 'Erreur interne du serveur' });
+	}
+};
+
+exports.addAllElevesToArchive = async (req, res) => {
+	try {
+		const { year } = req.params;
+
+		const eleves = await Eleve.find();
+
+		const archives = eleves.map(eleve => ({
+			year,
+			nom: eleve.nom,
+			prenom: eleve.prenom,
+			dateDeNaissance: eleve.dateDeNaissance,
+			classe: eleve.classe,
+			niveau: eleve.niveau,
+			prof: eleve.prof,
+			repeatGrade: eleve.repeatGrade,
+			skipGrade: eleve.skipGrade,
+		}));
+
+		await Archive.insertMany(archives);
+
+		res.status(201).json({
+			message: "Tous les élèves ont été ajoutés à l'archive pour l'année " + year,
+		});
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({
+			message: "Erreur lors de l'ajout des élèves à l'archive",
+			error,
+		});
 	}
 };
