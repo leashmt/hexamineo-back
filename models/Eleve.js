@@ -19,7 +19,7 @@ const eleveSchema = new mongoose.Schema({
 	},
 	niveau: {
 		type: String,
-		required: true,
+		default: 'Non renseigné',
 	},
 	prof: {
 		type: mongoose.Schema.Types.ObjectId, // référence au professeur
