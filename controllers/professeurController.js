@@ -35,8 +35,6 @@ exports.createProfesseur = async (req, res) => {
 			email,
 		});
 
-		console.log(newProfesseur);
-
 		await newProfesseur.save();
 		res.status(201).json(newProfesseur);
 	} catch (error) {
