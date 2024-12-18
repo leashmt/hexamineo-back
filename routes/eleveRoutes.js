@@ -23,6 +23,9 @@ router.get('/:id', eleveController.getEleveById);
 // Route pour récupérer tous les élèves d'un niveau spécifique
 router.get('/niveau/:niveau', eleveController.getElevesByNiveau);
 
+// Route pour assigner les professeurs aux élèves
+router.put('/assign-professeurs', eleveController.assignProfesseursToEleves);
+
 // Route pour récupérer tous les élèves sans niveau
 // router.get('/without-niveau', eleveController.getElevesWithoutNiveau);
 

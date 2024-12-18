@@ -1,4 +1,5 @@
 const Eleve = require('../models/Eleve');
+const Professeur = require('../models/Professeur');
 const { promoteEleves } = require('../scripts/updateLevel');
 
 exports.getAllEleves = async (req, res) => {
@@ -120,5 +121,37 @@ exports.promoteEleves = async (req, res) => {
 			message: 'Erreur lors de la promotion des élèves',
 			error: error.message,
 		});
+	}
+};
+
+exports.assignProfesseursToEleves = async (req, res) => {
+	try {
+		const eleves = await Eleve.find();
+
+		for (let eleve of eleves) {
+			const niveau = eleve.niveau;
+
+			// Si le niveau de l'élève n'est pas renseigné, on passe à l'élève suivant
+			if (!niveau || niveau === 'Non renseigné') {
+				continue;
+			}
+
+			const professeur = await Professeur.findOne({ niveau });
+
+			if (professeur) {
+				eleve.prof = professeur._id;
+				eleve.nomProf = professeur.nom;
+				await eleve.save();
+			} else {
+				console.log(
+					`Aucun professeur trouvé pour le niveau ${niveau} de l'élève ${eleve.nom}`
+				);
+			}
+		}
+
+		res.status(200).json({ message: 'Professeurs assignés à tous les élèves' });
+	} catch (error) {
+		console.error("Erreur lors de l'assignation des professeurs aux élèves :", error);
+		res.status(500).json({ message: 'Erreur interne du serveur' });
 	}
 };
