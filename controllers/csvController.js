@@ -1,4 +1,3 @@
-// controllers/csvController.js
 const { importCSV } = require('../scripts/importCSV');
 
 const importCSVHandler = async (req, res) => {

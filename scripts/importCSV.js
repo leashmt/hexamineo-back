@@ -83,5 +83,4 @@ const importCSV = async filepath => {
 	});
 };
 
-// importCSV('./Effectif_2024_2025_Saint_Excopy.csv');
 module.exports = { importCSV };
