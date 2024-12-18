@@ -7,7 +7,6 @@ const Eleve = require('../models/Eleve');
 const connectDB = async () => {
 	try {
 		await mongoose.connect('mongodb://localhost:27017/hexamineo');
-		console.log('Connexion à MongoDB réussie');
 	} catch (err) {
 		console.error('Erreur de connexion à MongoDB:', err);
 		process.exit(1);
@@ -84,5 +83,4 @@ const importCSV = async filepath => {
 	});
 };
 
-// importCSV('./Effectif_2024_2025_Saint_Excopy.csv');
-module.exports = importCSV;
+module.exports = { importCSV };

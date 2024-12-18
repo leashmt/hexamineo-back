@@ -28,7 +28,7 @@ const eleveSchema = new mongoose.Schema({
 	nomProf: {
 		type: String,
 	},
-	repeatingGrade: {
+	repeatGrade: {
 		type: Boolean,
 		default: false,
 	},
