@@ -3,10 +3,16 @@ const mongoose = require('mongoose');
 const eleveRoutes = require('./routes/eleveRoutes');
 const professeurRoutes = require('./routes/professeurRoutes');
 const classeRoutes = require('./routes/classeRoutes');
+const csvRoutes = require('./routes/csvRoutes');
+const cors = require('cors');
 
 const app = express();
 const PORT = 3001;
+const corsOptions = {
+	origin: 'http://localhost:3000',
+};
 
+app.use(cors(corsOptions));
 app.use(express.json());
 
 mongoose
@@ -17,6 +23,7 @@ mongoose
 app.use('/api/eleves', eleveRoutes);
 app.use('/api/professeurs', professeurRoutes);
 app.use('/api/classes', classeRoutes);
+app.use('/api', csvRoutes);
 
 app.get('/', (req, res) => {
 	res.send('Bienvenue sur le serveur back-end Hexamineo !');

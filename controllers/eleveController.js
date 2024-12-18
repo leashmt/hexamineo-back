@@ -21,13 +21,12 @@ exports.getEleveById = async (req, res) => {
 
 exports.createEleve = async (req, res) => {
 	const { nom, prenom, dateDeNaissance, classe, niveau, prof } = req.body;
-
 	const newEleve = new Eleve({
 		nom,
 		prenom,
 		dateDeNaissance,
 		classe,
-		niveau,
+		niveau: niveau || 'Non spécifié',
 		prof,
 	});
 
