@@ -31,3 +31,14 @@ export const LEVELS_BY_AGE = {
 	9: CM1,
 	10: CM2,
 };
+
+export const LEVELS_NAMES = {
+	FIRST_SECTION: '1ère section maternelle',
+	SECOND_SECTION: '2ème section maternelle',
+	THRID_SECTION: '3ème section maternelle',
+	CP: 'CP',
+	CE1: 'CE1',
+	CE2: 'CE2',
+	CM1: 'CM1',
+	CM2: 'CM2',
+};

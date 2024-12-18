@@ -92,6 +92,7 @@ const processCSV = async filePath => {
 						email: `${nomProfesseur
 							.toLowerCase()
 							.replace(' ', '.')}@ecole.com`,
+						niveau: eleve.niveau,
 					});
 					await professeur.save();
 					countProfesseurs++;

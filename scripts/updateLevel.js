@@ -1,5 +1,3 @@
-// services/levelService.js
-
 const { LIST_LEVELS } = require('../constants');
 const Eleve = require('../models/Eleve');
 
@@ -10,12 +8,12 @@ const promoteEleves = async () => {
 		for (let eleve of eleves) {
 			let currentLevelIndex = LIST_LEVELS.indexOf(eleve.niveau);
 
-			if (currentLevelIndex === -1) {
-				console.error(
-					`Le niveau de l'élève ${eleve.nom} ${eleve.prenom} est invalide.`
-				);
-				continue;
-			}
+			// if (currentLevelIndex === -1) {
+			// 	console.error(
+			// 		`Le niveau de l'élève ${eleve.nom} ${eleve.prenom} est invalide.`
+			// 	);
+			// 	continue;
+			// }
 
 			if (eleve.repeatGrade) {
 				// redoublement
@@ -41,6 +39,7 @@ const promoteEleves = async () => {
 
 			const newLevel = LIST_LEVELS[currentLevelIndex];
 			eleve.niveau = newLevel;
+			eleve.nomProf = '';
 			await eleve.save();
 		}
 	} catch (error) {

@@ -6,7 +6,7 @@ const eleveController = require('../controllers/eleveController');
 router.get('/', eleveController.getAllEleves);
 
 // Route pour promouvoir les élèves
-router.put('/promote', eleveController.promoteEleves);
+router.put('/assign', eleveController.promoteEleves);
 
 // Route pour sauter une classe
 router.put('/:id/skip-grade', eleveController.skipGrade);
@@ -24,7 +24,7 @@ router.get('/:id', eleveController.getEleveById);
 router.get('/niveau/:niveau', eleveController.getElevesByNiveau);
 
 // Route pour récupérer tous les élèves sans niveau
-router.get('/without-niveau', eleveController.getElevesWithoutNiveau);
+// router.get('/without-niveau', eleveController.getElevesWithoutNiveau);
 
 // Route pour ajouter un nouvel élève
 router.post('/', eleveController.createEleve);

@@ -5,6 +5,9 @@ const professeurController = require('../controllers/professeurController');
 // Route pour récupérer tous les professeurs
 router.get('/', professeurController.getAllProfesseurs);
 
+// Route pour mettre à jour les assignments
+router.put('/assign', professeurController.updateAssignments);
+
 // Route pour récupérer un professeur par ID
 router.get('/:id', professeurController.getProfesseurById);
 
