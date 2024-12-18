@@ -94,6 +94,8 @@ exports.updateLevels = async (req, res) => {
 	try {
 		const updates = req.body; // Object with {niveau: "nom du professeur"}
 
+		await Professeur.updateMany({}, { $set: { niveau: '' } });
+
 		for (const niveau in updates) {
 			const nomProfesseur = updates[niveau];
 
