@@ -33,6 +33,7 @@ const dispatchStudents = async () => {
 			const classe = LEVELS_BY_AGE[age];
 
 			eleve.niveau = classe;
+			console.log(eleve.nom, eleve.prenom, eleve.niveau);
 			await eleve.save();
 			count++;
 		}
