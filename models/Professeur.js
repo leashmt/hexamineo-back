@@ -9,6 +9,10 @@ const professeurSchema = new mongoose.Schema({
 		type: String,
 		unique: true,
 	},
+	niveau: {
+		type: String,
+		default: 'Non renseigné',
+	},
 });
 
 const Professeur = mongoose.model('Professeur', professeurSchema);
