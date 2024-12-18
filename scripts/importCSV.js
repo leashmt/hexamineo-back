@@ -83,4 +83,5 @@ const importCSV = async filepath => {
 	});
 };
 
+importCSV('preinscriptions_Saint_Ex.csv');
 module.exports = { importCSV };

@@ -1,4 +1,5 @@
 const Eleve = require('../models/Eleve');
+const { promoteEleves } = require('../scripts/updateLevel');
 
 exports.getAllEleves = async (req, res) => {
 	try {
@@ -94,5 +95,17 @@ exports.resetGrade = async (req, res) => {
 		res.status(200).json({ message: 'Élève réinitialisé' });
 	} catch (error) {
 		res.status(500).json({ message: error.message });
+	}
+};
+
+exports.promoteEleves = async (req, res) => {
+	try {
+		await promoteEleves();
+		res.status(200).json({ message: 'Les élèves ont été promus avec succès.' });
+	} catch (error) {
+		res.status(500).json({
+			message: 'Erreur lors de la promotion des élèves',
+			error: error.message,
+		});
 	}
 };
