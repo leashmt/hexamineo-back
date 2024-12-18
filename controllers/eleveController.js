@@ -34,6 +34,15 @@ exports.getElevesByNiveau = async (req, res) => {
 	}
 };
 
+exports.getElevesWithoutLevel = async (req, res) => {
+	try {
+		const eleves = await Eleve.find({ niveau: 'Non renseigné' });
+		res.status(200).json(eleves);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
 exports.createEleve = async (req, res) => {
 	const { nom, prenom, dateDeNaissance, classe, niveau, prof } = req.body;
 	const newEleve = new Eleve({
