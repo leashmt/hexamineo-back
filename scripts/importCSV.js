@@ -19,14 +19,12 @@ let countEleves = 0;
 const processCSV = async filePath => {
 	const readStream = fs.createReadStream(filePath).pipe(csv());
 
-	// Détecter le format du CSV en inspectant les en-têtes
 	let isSimpleFormat = false;
 	let headers;
 
 	for await (const row of readStream) {
 		if (!headers) {
 			headers = Object.keys(row);
-			// Détecter si le format est simple (Nom, Prénom, Date de naissance)
 			if (
 				headers.includes('Nom') &&
 				headers.includes('Prénom') &&
@@ -36,7 +34,6 @@ const processCSV = async filePath => {
 			}
 		}
 
-		// Traitement du fichier en fonction du format détecté
 		try {
 			const cleanedRow = Object.keys(row).reduce((acc, key) => {
 				acc[key.replace(/^\ufeff/, '').trim()] = row[key];
@@ -44,10 +41,8 @@ const processCSV = async filePath => {
 			}, {});
 
 			if (isSimpleFormat) {
-				// Format simple (Nom, Prénom, Date de naissance)
 				const { Nom, Prénom, 'Date de naissance': dateDeNaissance } = cleanedRow;
 
-				// Vérifier si l'élève existe déjà
 				const eleveExists = await Eleve.findOne({ nom: Nom, prenom: Prénom });
 
 				if (eleveExists) {
@@ -59,14 +54,13 @@ const processCSV = async filePath => {
 					prenom: Prénom,
 					dateDeNaissance: new Date(
 						dateDeNaissance.split('/').reverse().join('-')
-					), // Convertir le format de date DD/MM/YYYY en YYYY-MM-DD
-					niveau: 'Non spécifié', // Ici, tu peux choisir de ne pas spécifier le niveau si non disponible
+					),
+					niveau: 'Non renseigné',
 				});
 
 				await eleve.save();
 				countEleves++;
 			} else {
-				// Format avec niveau et professeur
 				const {
 					Niveau,
 					'Nom Élève': nomEleve,
