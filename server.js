@@ -9,7 +9,7 @@ const cors = require('cors');
 const app = express();
 const PORT = 3001;
 const corsOptions = {
-	origin: 'http://localhost:3000', // Autoriser seulement localhost:3000
+	origin: 'http://localhost:3000',
 };
 
 app.use(cors(corsOptions));
