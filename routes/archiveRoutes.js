@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 const archiveController = require('../controllers/archiveController');
 
-// Route pour ajouter une archive
-router.post('/', archiveController.addArchive);
-
 // Route pour récupérer toutes les archives
 router.get('/', archiveController.getAllArchives);
+
+// Route pour ajouter une archive
+router.post('/', archiveController.addArchive);
 
 // Route pour ajouter tous les élèves à une archive
 router.post('/:year/all', archiveController.addAllElevesToArchive);

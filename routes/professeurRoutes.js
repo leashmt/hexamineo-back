@@ -11,6 +11,9 @@ router.put('/assign', professeurController.updateAssignments);
 // Route pour récupérer un professeur par ID
 router.get('/:id', professeurController.getProfesseurById);
 
+//Route pour mettre à jour les niveaux des profs
+router.put('/update-levels', professeurController.updateLevels);
+
 // Route pour ajouter un nouveau professeur
 router.post('/', professeurController.createProfesseur);
 

@@ -31,10 +31,11 @@ exports.createProfesseur = async (req, res) => {
 
 	try {
 		const newProfesseur = new Professeur({
-			nom,
-			prenom,
+			nom: `${prenom} ${nom}`,
 			email,
 		});
+
+		console.log(newProfesseur);
 
 		await newProfesseur.save();
 		res.status(201).json(newProfesseur);
@@ -86,5 +87,33 @@ exports.updateAssignments = async (req, res) => {
 			message: 'Erreur lors de la mise à jour des assignments',
 			error,
 		});
+	}
+};
+
+exports.updateLevels = async (req, res) => {
+	try {
+		const updates = req.body; // Object with {niveau: "nom du professeur"}
+
+		for (const niveau in updates) {
+			const nomProfesseur = updates[niveau];
+
+			if (!niveau || !nomProfesseur) {
+				continue;
+			}
+
+			const professeur = await Professeur.findOne({ nom: nomProfesseur });
+			if (!professeur) {
+				console.warn(`Professeur ${nomProfesseur} introuvable`);
+				continue;
+			}
+
+			professeur.niveau = niveau;
+			await professeur.save();
+		}
+
+		res.status(200).json({ message: 'Niveaux mis à jour avec succès' });
+	} catch (error) {
+		console.error('Erreur lors de la mise à jour des niveaux :', error);
+		res.status(500).json({ message: 'Erreur interne du serveur' });
 	}
 };
