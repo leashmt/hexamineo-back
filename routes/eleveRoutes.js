@@ -5,6 +5,15 @@ const eleveController = require('../controllers/eleveController');
 // Route pour récupérer tous les élèves
 router.get('/', eleveController.getAllEleves);
 
+// Route pour sauter une classe
+router.put('/:id/skip-grade', eleveController.skipGrade);
+
+// Route pour redoubler une classe
+router.put('/:id/repeat-grade', eleveController.repeatGrade);
+
+// Route pour réinitialiser le grade
+router.put('/:id/reset-grade', eleveController.resetGrade);
+
 // Route pour récupérer un élève par ID
 router.get('/:id', eleveController.getEleveById);
 

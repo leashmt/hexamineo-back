@@ -59,3 +59,40 @@ exports.deleteEleve = async (req, res) => {
 		res.status(500).json({ message: error.message });
 	}
 };
+
+exports.skipGrade = async (req, res) => {
+	try {
+		const eleve = await Eleve.findByIdAndUpdate(req.params.id, {
+			skipGrade: true,
+		});
+		if (!eleve) return res.status(404).json({ message: 'Élève non trouvé' });
+		res.status(200).json({ message: 'Élève saute une classe' });
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
+exports.repeatGrade = async (req, res) => {
+	try {
+		const eleve = await Eleve.findByIdAndUpdate(req.params.id, {
+			repeatGrade: true,
+		});
+		if (!eleve) return res.status(404).json({ message: 'Élève non trouvé' });
+		res.status(200).json({ message: 'Élève redoublement une classe' });
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
+exports.resetGrade = async (req, res) => {
+	try {
+		const eleve = await Eleve.findByIdAndUpdate(req.params.id, {
+			repeatGrade: false,
+			skipGrade: false,
+		});
+		if (!eleve) return res.status(404).json({ message: 'Élève non trouvé' });
+		res.status(200).json({ message: 'Élève réinitialisé' });
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
