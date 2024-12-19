@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const eleveRoutes = require('./routes/eleveRoutes');
 const professeurRoutes = require('./routes/professeurRoutes');
 const classeRoutes = require('./routes/classeRoutes');
+const archiveRoutes = require('./routes/archiveRoutes');
 const csvRoutes = require('./routes/csvRoutes');
 const authRoutes = require('./routes/authRoutes');
 const {authenticate, authorize} = require('./middleware/verifyToken');
@@ -28,6 +29,7 @@ app.use('/api/eleves', authenticate, authorize(['ADMIN', 'MAIRIE']), eleveRoutes
 app.use('/api/professeurs', authenticate, authorize(['ADMIN', 'MAIRIE']), professeurRoutes);
 app.use('/api/classes', authenticate, authorize(['ADMIN', 'DIRECTRICE']), classeRoutes);
 app.use('/api', authenticate, authorize(['ADMIN, MAIRIE']), csvRoutes);
+app.use('/api/archive', archiveRoutes);
 
 app.get('/', (req, res) => {
 	res.send('Bienvenue sur le serveur back-end Hexamineo !');

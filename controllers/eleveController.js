@@ -1,4 +1,6 @@
 const Eleve = require('../models/Eleve');
+const Professeur = require('../models/Professeur');
+const { promoteEleves } = require('../scripts/updateLevel');
 
 exports.getAllEleves = async (req, res) => {
 	try {
@@ -26,6 +28,15 @@ exports.getElevesByNiveau = async (req, res) => {
 		if (eleves.length === 0) {
 			return res.status(404).json({ message: 'Aucun élève trouvé pour ce niveau' });
 		}
+		res.status(200).json(eleves);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
+exports.getElevesWithoutLevel = async (req, res) => {
+	try {
+		const eleves = await Eleve.find({ niveau: 'Non renseigné' });
 		res.status(200).json(eleves);
 	} catch (error) {
 		res.status(500).json({ message: error.message });
@@ -107,5 +118,49 @@ exports.resetGrade = async (req, res) => {
 		res.status(200).json({ message: 'Élève réinitialisé' });
 	} catch (error) {
 		res.status(500).json({ message: error.message });
+	}
+};
+
+exports.promoteEleves = async (req, res) => {
+	try {
+		await promoteEleves();
+		res.status(200).json({ message: 'Les élèves ont été promus avec succès.' });
+	} catch (error) {
+		res.status(500).json({
+			message: 'Erreur lors de la promotion des élèves',
+			error: error.message,
+		});
+	}
+};
+
+exports.assignProfesseursToEleves = async (req, res) => {
+	try {
+		const eleves = await Eleve.find();
+
+		for (let eleve of eleves) {
+			const niveau = eleve.niveau;
+
+			// Si le niveau de l'élève n'est pas renseigné, on passe à l'élève suivant
+			if (!niveau || niveau === 'Non renseigné') {
+				continue;
+			}
+
+			const professeur = await Professeur.findOne({ niveau });
+
+			if (professeur) {
+				eleve.prof = professeur._id;
+				eleve.nomProf = professeur.nom;
+				await eleve.save();
+			} else {
+				console.log(
+					`Aucun professeur trouvé pour le niveau ${niveau} de l'élève ${eleve.nom}`
+				);
+			}
+		}
+
+		res.status(200).json({ message: 'Professeurs assignés à tous les élèves' });
+	} catch (error) {
+		console.error("Erreur lors de l'assignation des professeurs aux élèves :", error);
+		res.status(500).json({ message: 'Erreur interne du serveur' });
 	}
 };

@@ -20,52 +20,94 @@ let countEleves = 0;
 const processCSV = async filePath => {
 	const readStream = fs.createReadStream(filePath).pipe(csv());
 
+	let isSimpleFormat = false;
+	let headers;
+
 	for await (const row of readStream) {
+		if (!headers) {
+			headers = Object.keys(row);
+			console.log(headers);
+			if (
+				headers.includes('Nom') &&
+				headers.includes('Prenom') &&
+				headers.includes('Date de naissance')
+			) {
+				isSimpleFormat = true;
+			}
+		}
+
 		try {
 			const cleanedRow = Object.keys(row).reduce((acc, key) => {
 				acc[key.replace(/^\ufeff/, '').trim()] = row[key];
 				return acc;
 			}, {});
 
-			const {
-				Niveau,
-				'Nom Élève': nomEleve,
-				'Prénom Élève': prenomEleve,
-				'Date de Naissance': dateDeNaissance,
-				'Nom Professeur': nomProfesseur,
-			} = cleanedRow;
+			if (isSimpleFormat) {
+				const { Nom, Prenom, 'Date de naissance': dateDeNaissance } = cleanedRow;
 
-			const eleveExists = await Eleve.findOne({
-				nom: nomEleve,
-				prenom: prenomEleve,
-			});
+				const eleveExists = await Eleve.findOne({ nom: Nom, prenom: Prenom });
 
-			if (eleveExists) {
-				continue;
-			}
+				if (eleveExists) {
+					continue;
+				}
 
-			const eleve = new Eleve({
-				nom: nomEleve,
-				prenom: prenomEleve,
-				dateDeNaissance: new Date(dateDeNaissance),
-				niveau: Niveau,
-			});
-
-			let professeur = await Professeur.findOne({ nom: nomProfesseur });
-			if (!professeur) {
-				professeur = new Professeur({
-					nom: nomProfesseur,
-					email: `${nomProfesseur.toLowerCase().replace(' ', '.')}@ecole.com`,
+				const eleve = new Eleve({
+					nom: Nom,
+					prenom: Prenom,
+					dateDeNaissance: new Date(
+						dateDeNaissance.split('/').reverse().join('-')
+					),
+					niveau: 'Non renseigné',
 				});
-				await professeur.save();
-				countProfesseurs++;
+
+				await eleve.save();
+				countEleves++;
+			} else {
+				const {
+					Niveau,
+					'Nom Élève': nomEleve,
+					'Prénom Élève': prenomEleve,
+					'Date de Naissance': dateDeNaissance,
+					'Nom Professeur': nomProfesseur,
+				} = cleanedRow;
+
+				const eleveExists = await Eleve.findOne({
+					nom: nomEleve,
+					prenom: prenomEleve,
+				});
+
+				if (eleveExists) {
+					continue;
+				}
+
+				const eleve = new Eleve({
+					nom: nomEleve,
+					prenom: prenomEleve,
+					dateDeNaissance: new Date(dateDeNaissance),
+					niveau: Niveau,
+				});
+
+				if (nomProfesseur) {
+					let professeur = await Professeur.findOne({ nom: nomProfesseur });
+					if (!professeur) {
+						professeur = new Professeur({
+							nom: nomProfesseur,
+							email: `${nomProfesseur
+								.toLowerCase()
+								.replace(' ', '.')}@ecole.com`,
+							niveau: eleve.niveau,
+						});
+						await professeur.save();
+						countProfesseurs++;
+					}
+
+					eleve.prof = professeur._id;
+					eleve.nomProf = professeur.nom;
+				}
+
+				await eleve.save();
+				countEleves++;
 			}
-
-			eleve.prof = professeur._id;
-			eleve.nomProf = professeur.nom;
-
-			await eleve.save();
-			countEleves++;
 		} catch (err) {
 			console.error('Erreur lors de l’importation d’une ligne:', err);
 		}
@@ -84,4 +126,6 @@ const importCSV = async filepath => {
 	});
 };
 
+// importCSV('preinscriptions_Saint_Ex.csv');
+// importCSV('Effectif_2024_2025_Saint_Excopy.csv');
 module.exports = { importCSV };

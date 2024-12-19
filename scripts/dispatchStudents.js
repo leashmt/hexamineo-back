@@ -26,11 +26,14 @@ const dispatchStudents = async () => {
 		for (const eleve of eleves) {
 			const age = getAge(eleve.dateDeNaissance);
 			if (age > 10) {
-				continue;
+				continue; // TODO: supprimer les élèves plus de 10 ans
+				// const deleteEleve = await Eleve.findByIdAndDelete(eleve._id);
+				// console.log('Élève supprimé :', deleteEleve);
 			}
 			const classe = LEVELS_BY_AGE[age];
 
 			eleve.niveau = classe;
+			console.log(eleve.nom, eleve.prenom, eleve.niveau);
 			await eleve.save();
 			count++;
 		}

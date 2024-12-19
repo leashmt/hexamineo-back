@@ -1,4 +1,5 @@
 const Professeur = require('../models/Professeur');
+const { assignProfessorsToStudents } = require('../scripts/dispatchProf');
 
 exports.getAllProfesseurs = async (req, res) => {
 	try {
@@ -30,8 +31,7 @@ exports.createProfesseur = async (req, res) => {
 
 	try {
 		const newProfesseur = new Professeur({
-			nom,
-			prenom,
+			nom: `${prenom} ${nom}`,
 			email,
 		});
 
@@ -73,5 +73,47 @@ exports.deleteProfesseur = async (req, res) => {
 		res.status(200).json({ message: 'Professeur supprimé avec succès' });
 	} catch (error) {
 		res.status(500).json({ message: error.message });
+	}
+};
+
+exports.updateAssignments = async (req, res) => {
+	try {
+		const updatedAssignments = await assignProfessorsToStudents();
+		res.status(200).send(updatedAssignments);
+	} catch (error) {
+		res.status(500).send({
+			message: 'Erreur lors de la mise à jour des assignments',
+			error,
+		});
+	}
+};
+
+exports.updateLevels = async (req, res) => {
+	try {
+		const updates = req.body; // Object with {niveau: "nom du professeur"}
+
+		await Professeur.updateMany({}, { $set: { niveau: '' } });
+
+		for (const niveau in updates) {
+			const nomProfesseur = updates[niveau];
+
+			if (!niveau || !nomProfesseur) {
+				continue;
+			}
+
+			const professeur = await Professeur.findOne({ nom: nomProfesseur });
+			if (!professeur) {
+				console.warn(`Professeur ${nomProfesseur} introuvable`);
+				continue;
+			}
+
+			professeur.niveau = niveau;
+			await professeur.save();
+		}
+
+		res.status(200).json({ message: 'Niveaux mis à jour avec succès' });
+	} catch (error) {
+		console.error('Erreur lors de la mise à jour des niveaux :', error);
+		res.status(500).json({ message: 'Erreur interne du serveur' });
 	}
 };
