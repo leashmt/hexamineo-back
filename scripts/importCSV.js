@@ -25,9 +25,10 @@ const processCSV = async filePath => {
 	for await (const row of readStream) {
 		if (!headers) {
 			headers = Object.keys(row);
+			console.log(headers);
 			if (
 				headers.includes('Nom') &&
-				headers.includes('Prénom') &&
+				headers.includes('Prenom') &&
 				headers.includes('Date de naissance')
 			) {
 				isSimpleFormat = true;
@@ -41,9 +42,9 @@ const processCSV = async filePath => {
 			}, {});
 
 			if (isSimpleFormat) {
-				const { Nom, Prénom, 'Date de naissance': dateDeNaissance } = cleanedRow;
+				const { Nom, Prenom, 'Date de naissance': dateDeNaissance } = cleanedRow;
 
-				const eleveExists = await Eleve.findOne({ nom: Nom, prenom: Prénom });
+				const eleveExists = await Eleve.findOne({ nom: Nom, prenom: Prenom });
 
 				if (eleveExists) {
 					continue;
@@ -51,7 +52,7 @@ const processCSV = async filePath => {
 
 				const eleve = new Eleve({
 					nom: Nom,
-					prenom: Prénom,
+					prenom: Prenom,
 					dateDeNaissance: new Date(
 						dateDeNaissance.split('/').reverse().join('-')
 					),
@@ -85,21 +86,23 @@ const processCSV = async filePath => {
 					niveau: Niveau,
 				});
 
-				let professeur = await Professeur.findOne({ nom: nomProfesseur });
-				if (!professeur) {
-					professeur = new Professeur({
-						nom: nomProfesseur,
-						email: `${nomProfesseur
-							.toLowerCase()
-							.replace(' ', '.')}@ecole.com`,
-						niveau: eleve.niveau,
-					});
-					await professeur.save();
-					countProfesseurs++;
-				}
+				if (nomProfesseur) {
+					let professeur = await Professeur.findOne({ nom: nomProfesseur });
+					if (!professeur) {
+						professeur = new Professeur({
+							nom: nomProfesseur,
+							email: `${nomProfesseur
+								.toLowerCase()
+								.replace(' ', '.')}@ecole.com`,
+							niveau: eleve.niveau,
+						});
+						await professeur.save();
+						countProfesseurs++;
+					}
 
-				eleve.prof = professeur._id;
-				eleve.nomProf = professeur.nom;
+					eleve.prof = professeur._id;
+					eleve.nomProf = professeur.nom;
+				}
 
 				await eleve.save();
 				countEleves++;

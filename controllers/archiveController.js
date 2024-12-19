@@ -63,18 +63,37 @@ exports.addAllElevesToArchive = async (req, res) => {
 
 		const eleves = await Eleve.find();
 
-		const archives = eleves.map(eleve => ({
-			year,
-			nom: eleve.nom,
-			prenom: eleve.prenom,
-			dateDeNaissance: eleve.dateDeNaissance,
-			classe: eleve.classe,
-			niveau: eleve.niveau,
-			prof: eleve.prof,
-			repeatGrade: eleve.repeatGrade,
-			skipGrade: eleve.skipGrade,
-		}));
+		const archives = [];
 
+		for (const eleve of eleves) {
+			const existingEleve = await Archive.findOne({
+				nom: eleve.nom,
+				prenom: eleve.prenom,
+				dateDeNaissance: eleve.dateDeNaissance,
+				classe: eleve.classe,
+				year: year,
+			});
+
+			if (!existingEleve) {
+				archives.push({
+					year,
+					nom: eleve.nom,
+					prenom: eleve.prenom,
+					dateDeNaissance: eleve.dateDeNaissance,
+					classe: eleve.classe,
+					niveau: eleve.niveau,
+					prof: eleve.prof,
+					nomProf: eleve.nomProf,
+					repeatGrade: eleve.repeatGrade,
+					skipGrade: eleve.skipGrade,
+				});
+			} else {
+				console.log(
+					`L'élève ${eleve.nom} ${eleve.prenom} existe déjà dans les archives.`
+				);
+			}
+		}
+		console.log(archives.length);
 		await Archive.insertMany(archives);
 
 		res.status(201).json({
