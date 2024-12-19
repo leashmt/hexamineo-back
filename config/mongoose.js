@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 
-const dbUri = 'mongodb://localhost:27017/hexamineo';
+const dbUri = 'mongodb+srv://lhurtaud:E^)eZaxnhV*sZ9kc%zt;@rosettadb.elkcmkt.mongodb.net/hexamineo?retryWrites=true&w=majority&appName=rosettadb';
 
 const connectDB = () => {
 	mongoose
 		.connect(dbUri, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
+			family: 4
 		})
 		.then(() => {
 			console.log('Connexion à MongoDB réussie !');
