@@ -1,12 +1,14 @@
 const mongoose = require('mongoose');
 const fs = require('fs');
+require('dotenv').config();
 const csv = require('csv-parser');
 const Professeur = require('../models/Professeur');
 const Eleve = require('../models/Eleve');
+const addUser = require('./addUser');
 
 const connectDB = async () => {
 	try {
-		await mongoose.connect('mongodb://localhost:27017/hexamineo');
+		await mongoose.connect(process.env.BDD_URL);
 	} catch (err) {
 		console.error('Erreur de connexion à MongoDB:', err);
 		process.exit(1);
@@ -97,6 +99,7 @@ const processCSV = async filePath => {
 							niveau: eleve.niveau,
 						});
 						await professeur.save();
+						addUser(nomProfesseur, 'PROFESSEUR', "Default", eleve.niveau)
 						countProfesseurs++;
 					}
 
@@ -124,6 +127,4 @@ const importCSV = async filepath => {
 	});
 };
 
-// importCSV('preinscriptions_Saint_Ex.csv');
-// importCSV('Effectif_2024_2025_Saint_Excopy.csv');
 module.exports = { importCSV };
