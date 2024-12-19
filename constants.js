@@ -19,9 +19,9 @@ export const LIST_LEVELS = [
 ];
 
 export const LEVELS_BY_AGE = {
-	0: 'null',
-	1: 'null',
-	2: 'null',
+	0: 'Non renseigné',
+	1: 'Non renseigné',
+	2: 'Non renseigné',
 	3: FIRST_SECTION,
 	4: SECOND_SECTION,
 	5: THRID_SECTION,
