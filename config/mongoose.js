@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
-const dbUri = 'mongodb+srv://lhurtaud:E^)eZaxnhV*sZ9kc%zt;@rosettadb.elkcmkt.mongodb.net/hexamineo?retryWrites=true&w=majority&appName=rosettadb';
+
+const dbUri = process.env.BDD_URL
 
 const connectDB = () => {
 	mongoose

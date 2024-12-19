@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors')
+require('dotenv').config();
 const mongoose = require('mongoose');
 const eleveRoutes = require('./routes/eleveRoutes');
 const professeurRoutes = require('./routes/professeurRoutes');
@@ -18,7 +19,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 mongoose
-	.connect('mongodb+srv://lhurtaud:QAgcyB6jMkqmFdkpHtUMWJt3RCY7H5@rosettadb.elkcmkt.mongodb.net/hexamineo?retryWrites=true&w=majority&appName=rosettadb')
+	.connect(process.env.BDD_URL)
 	.then(() => console.log('Connexion à MongoDB réussie'))
 	.catch(err => console.error('Erreur de connexion à MongoDB :', err));
 

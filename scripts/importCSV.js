@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 const fs = require('fs');
+require('dotenv').config();
 const csv = require('csv-parser');
 const Professeur = require('../models/Professeur');
 const Eleve = require('../models/Eleve');
 
 const connectDB = async () => {
 	try {
-		await mongoose.connect('mongodb+srv://lhurtaud:QAgcyB6jMkqmFdkpHtUMWJt3RCY7H5@rosettadb.elkcmkt.mongodb.net/hexamineo?retryWrites=true&w=majority&appName=rosettadb');
+		await mongoose.connect(process.env.BDD_URL);
 	} catch (err) {
 		console.error('Erreur de connexion à MongoDB:', err);
 		process.exit(1);
