@@ -25,7 +25,7 @@ mongoose
 	.catch(err => console.error('Erreur de connexion à MongoDB :', err));
 
 app.use('/api/auth', authRoutes)
-app.use('/api/eleves', authenticate, authorize(['ADMIN', 'MAIRIE']), eleveRoutes);
+app.use('/api/eleves', authenticate, authorize(["ADMIN", "MAIRIE"]), eleveRoutes);
 app.use('/api/professeurs', authenticate, authorize(['ADMIN', 'MAIRIE']), professeurRoutes);
 app.use('/api/classes', authenticate, authorize(['ADMIN', 'DIRECTRICE']), classeRoutes);
 app.use('/api', csvRoutes);
