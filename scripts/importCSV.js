@@ -119,7 +119,6 @@ const processCSV = async filePath => {
 	console.log('Importation terminée.');
 	console.log(`${countProfesseurs} professeurs ajoutés.`);
 	console.log(`${countEleves} élèves ajoutés.`);
-	mongoose.connection.close();
 };
 
 const importCSV = async filepath => {
@@ -128,6 +127,4 @@ const importCSV = async filepath => {
 	});
 };
 
-// importCSV('preinscriptions_Saint_Ex.csv');
-// importCSV('Effectif_2024_2025_Saint_Excopy.csv');
 module.exports = { importCSV };
