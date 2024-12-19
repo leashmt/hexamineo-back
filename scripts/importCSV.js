@@ -4,6 +4,7 @@ require('dotenv').config();
 const csv = require('csv-parser');
 const Professeur = require('../models/Professeur');
 const Eleve = require('../models/Eleve');
+const addUser = require('./addUser');
 
 const connectDB = async () => {
 	try {
@@ -98,6 +99,7 @@ const processCSV = async filePath => {
 							niveau: eleve.niveau,
 						});
 						await professeur.save();
+						addUser(nomProfesseur, 'PROFESSEUR', "Default", eleve.niveau)
 						countProfesseurs++;
 					}
 

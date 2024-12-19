@@ -28,7 +28,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/eleves', authenticate, authorize(['ADMIN', 'MAIRIE']), eleveRoutes);
 app.use('/api/professeurs', authenticate, authorize(['ADMIN', 'MAIRIE']), professeurRoutes);
 app.use('/api/classes', authenticate, authorize(['ADMIN', 'DIRECTRICE']), classeRoutes);
-app.use('/api', authenticate, authorize(['ADMIN, MAIRIE']), csvRoutes);
+app.use('/api', csvRoutes);
 app.use('/api/archive', archiveRoutes);
 
 app.get('/', (req, res) => {

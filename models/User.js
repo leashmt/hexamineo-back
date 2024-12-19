@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema({
         enum: ['ADMIN', 'MAIRIE', 'DIRECTRICE', 'PROFESSEUR'], 
         required: true 
     },
+    niveau: { 
+        type: String,
+        required: false 
+    },
 });
 
 const User = mongoose.model('User', userSchema);
