@@ -116,7 +116,6 @@ const processCSV = async filePath => {
 	console.log('Importation terminée.');
 	console.log(`${countProfesseurs} professeurs ajoutés.`);
 	console.log(`${countEleves} élèves ajoutés.`);
-	mongoose.connection.close();
 };
 
 const importCSV = async filepath => {
