@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 const Eleve = require('../models/Eleve');
 const { LEVELS_BY_AGE } = require('../constants');
+require('dotenv').config();
 
 mongoose
-	.connect('mongodb://localhost:27017/hexamineo')
+	.connect(process.env.BDD_URL)
 	.then(() => console.log('Connexion à MongoDB réussie'))
 	.catch(err => console.error('Erreur de connexion à MongoDB :', err));
 

@@ -1,12 +1,15 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
-const dbUri = 'mongodb://localhost:27017/hexamineo';
+
+const dbUri = process.env.BDD_URL
 
 const connectDB = () => {
 	mongoose
 		.connect(dbUri, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
+			family: 4
 		})
 		.then(() => {
 			console.log('Connexion à MongoDB réussie !');
