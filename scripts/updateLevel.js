@@ -35,6 +35,8 @@ const promoteEleves = async () => {
 
 			if (eleve.repeatGrade) {
 				// redoublement
+				eleve.repeatGrade = false;
+				await eleve.save();
 				continue;
 			}
 

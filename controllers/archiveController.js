@@ -87,13 +87,8 @@ exports.addAllElevesToArchive = async (req, res) => {
 					repeatGrade: eleve.repeatGrade,
 					skipGrade: eleve.skipGrade,
 				});
-			} else {
-				console.log(
-					`L'élève ${eleve.nom} ${eleve.prenom} existe déjà dans les archives.`
-				);
 			}
 		}
-		console.log(archives.length);
 		await Archive.insertMany(archives);
 
 		res.status(201).json({
